@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using DKLicensePlateLookup.ViewModels;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -16,9 +17,11 @@ namespace DKLicensePlateLookup.Views
     /// </summary>
     public partial class MainWindow : Window
     {
+        VehicleViewModel vvm = new VehicleViewModel();
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = vvm;
         }
     }
 }
