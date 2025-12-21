@@ -17,11 +17,11 @@ namespace DKLicensePlateLookup.Views
     /// </summary>
     public partial class MainWindow : Window
     {
-        VehicleViewModel vvm = new VehicleViewModel();
+        MainViewModel mvm = new MainViewModel();
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = vvm;
+            DataContext = mvm;
         }
     }
 }

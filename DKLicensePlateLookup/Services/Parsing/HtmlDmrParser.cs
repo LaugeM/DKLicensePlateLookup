@@ -4,11 +4,10 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
 using HtmlAgilityPack;
-using System.Text.RegularExpressions;
 
 namespace DKLicensePlateLookup.Services.Parsing
 {
-    class HtmlDmrParser
+    public class HtmlDmrParser
     {
         public string GetField(string html, string headingLabel)
         {
