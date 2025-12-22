@@ -34,7 +34,7 @@
             Height="20"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            Text=""
+            Text="{Binding InputRegNumber, UpdateSourceTrigger=PropertyChanged}"
             TextWrapping="Wrap" />
         <Label
             x:Name="RegNumberLabel"
@@ -53,6 +53,8 @@
             Margin="0,13,0,0"
             HorizontalAlignment="Center"
             VerticalAlignment="Top"
+            Command="{Binding Path=LookupRegistrationCommand, UpdateSourceTrigger=PropertyChanged}"
+            CommandParameter="{Binding}"
             Content="Søg" />
         <Label
             x:Name="VINResultLabel"
@@ -65,7 +67,7 @@
             VerticalAlignment="Top"
             BorderBrush="Black"
             BorderThickness="1"
-            Content="" />
+            Content="{Binding CurrentVehicle.VIN, UpdateSourceTrigger=PropertyChanged}" />
         <Label
             x:Name="BrandResultLabel"
             Grid.Row="4"
@@ -77,7 +79,7 @@
             VerticalAlignment="Top"
             BorderBrush="Black"
             BorderThickness="1"
-            Content="" />
+            Content="{Binding CurrentVehicle.MakeModel, UpdateSourceTrigger=PropertyChanged}" />
         <Label
             x:Name="ModelResultLabel"
             Grid.Row="5"
@@ -101,7 +103,7 @@
             VerticalAlignment="Top"
             BorderBrush="Black"
             BorderThickness="1"
-            Content="" />
+            Content="{Binding CurrentVehicle.TypeUse, UpdateSourceTrigger=PropertyChanged}" />
         <Label
             x:Name="FirstRegResultLabel"
             Grid.Row="7"
@@ -113,7 +115,7 @@
             VerticalAlignment="Top"
             BorderBrush="Black"
             BorderThickness="1"
-            Content="" />
+            Content="{Binding CurrentVehicle.FirstReg, UpdateSourceTrigger=PropertyChanged}" />
         <Label
             x:Name="InsuranceResultLabel"
             Grid.Row="8"
@@ -125,7 +127,7 @@
             VerticalAlignment="Top"
             BorderBrush="Black"
             BorderThickness="1"
-            Content="" />
+            Content="{Binding CurrentVehicle.Insurance, UpdateSourceTrigger=PropertyChanged}" />
         <Button
             x:Name="CheckInsuranceButton"
             Grid.Row="8"

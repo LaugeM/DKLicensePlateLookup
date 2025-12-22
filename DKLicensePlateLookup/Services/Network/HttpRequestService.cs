@@ -28,7 +28,7 @@ namespace DKLicensePlateLookup.Services.Network
             _client = new HttpClient(_handler);
         }
 
-        public async Task GetInfo(string regNumber)
+        public async Task<string> GetInfo(string regNumber)
         {
             //Setting up first request
             string startUrl = "https://motorregister.skat.dk/dmr-kerne/koeretoejdetaljer/visKoeretoej?execution=e1s1";
@@ -38,7 +38,7 @@ namespace DKLicensePlateLookup.Services.Network
             if (!startResponse.IsSuccessStatusCode)
             {
                 Console.WriteLine($"startResponse.IsSuccessStatusCode: {startResponse.IsSuccessStatusCode}");
-                return;
+                return "";
             }
             var startHtml = await startResponse.Content.ReadAsStringAsync();
 
@@ -82,8 +82,14 @@ namespace DKLicensePlateLookup.Services.Network
                 Console.WriteLine("Sucessfully requested vehicle information");
                 var nextHtml = await nextResp.Content.ReadAsStringAsync();
                 Console.WriteLine("Next state (e1s2):");
+                return nextHtml;
+                
                 //dataHandler.save(nextHtml, "Info.txt");
                 //Console.WriteLine(nextHtml.Length > 1200 ? nextHtml.Substring(0, 1200) : nextHtml);
+            }
+            else
+            {
+                return "";
             }
         }
 

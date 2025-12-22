@@ -4,10 +4,24 @@ using System.Text;
 
 namespace DKLicensePlateLookup.Models
 {
-    public sealed record VehicleInfo(
-        string? Registreringsnr,
-        string? Stelnummer,
-        string? MaerkeModel,
-        string? ArtAnvend,
-        string? FoersteReg);
+    public class VehicleInfo
+    {
+        public string RegNumber { get; }
+        public string VIN { get; }
+        public string MakeAndModel { get; }
+        public string TypeUse { get; }
+        public string FirstReg { get; }
+        public string Insurance { get; set; } = "Ikke indlæst";
+
+
+        public VehicleInfo(string regNumber, string vin, string makeAndModel, string typeUse, string firstReg)
+        {
+            RegNumber = regNumber;
+            VIN = vin;
+            MakeAndModel = makeAndModel;
+            TypeUse = typeUse;
+            FirstReg = firstReg;
+        }
+    }
+    
 }

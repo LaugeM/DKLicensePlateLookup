@@ -1,4 +1,5 @@
-﻿using DKLicensePlateLookup.ViewModels;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -7,22 +8,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using DKLicensePlateLookup.ViewModels;
 
 namespace DKLicensePlateLookup.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for Window1.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class Window1 : Window
     {
-        //MainViewModel mvm = new MainViewModel();
-        public MainWindow()
+        public Window1()
         {
             InitializeComponent();
-            DataContext = new DKLicensePlateLookup.ViewModels.MainViewModel();
+            System.Windows.MessageBox.Show("Static MainWindow constructor called");
         }
     }
 }
