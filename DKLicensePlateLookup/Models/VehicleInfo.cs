@@ -8,17 +8,19 @@ namespace DKLicensePlateLookup.Models
     {
         public string RegNumber { get; }
         public string VIN { get; }
-        public string MakeAndModel { get; }
+        public string Make { get; }
+        public string Model { get; }
         public string TypeUse { get; }
         public string FirstReg { get; }
         public string Insurance { get; set; } = "Ikke indlæst";
 
 
-        public VehicleInfo(string regNumber, string vin, string makeAndModel, string typeUse, string firstReg)
+        public VehicleInfo(string regNumber, string vin, string make, string model, string typeUse, string firstReg)
         {
             RegNumber = regNumber;
             VIN = vin;
-            MakeAndModel = makeAndModel;
+            Make = make;
+            Model = model;
             TypeUse = typeUse;
             FirstReg = firstReg;
         }

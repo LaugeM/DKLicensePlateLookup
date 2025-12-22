@@ -34,14 +34,26 @@ namespace DKLicensePlateLookup.ViewModels
             }
         }
 
-        private string _makeAndModel = string.Empty;
-        public string MakeAndModel
+        private string _make = string.Empty;
+        public string Make
         {
-            get => _makeAndModel;
+            get => _make;
             set
             {
-                if (_makeAndModel == value) return;
-                _makeAndModel = value;
+                if (_make == value) return;
+                _make = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string _model = string.Empty;
+        public string Model
+        {
+            get => _model;
+            set
+            {
+                if (_model == value) return;
+                _model = value;
                 OnPropertyChanged();
             }
         }
@@ -88,7 +100,8 @@ namespace DKLicensePlateLookup.ViewModels
 
             RegNumber = _vehicleInfo.RegNumber;
             VIN = _vehicleInfo.VIN;
-            MakeAndModel = _vehicleInfo.MakeAndModel;
+            Make = _vehicleInfo.Make;
+            Model = _vehicleInfo.Model;
             TypeUse = _vehicleInfo.TypeUse;
             FirstReg = _vehicleInfo.FirstReg;
             Insurance = _vehicleInfo.Insurance;

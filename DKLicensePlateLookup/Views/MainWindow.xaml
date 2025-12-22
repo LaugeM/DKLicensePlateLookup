@@ -79,7 +79,7 @@
             VerticalAlignment="Top"
             BorderBrush="Black"
             BorderThickness="1"
-            Content="{Binding CurrentVehicle.MakeModel, UpdateSourceTrigger=PropertyChanged}" />
+            Content="{Binding CurrentVehicle.Make, UpdateSourceTrigger=PropertyChanged}" />
         <Label
             x:Name="ModelResultLabel"
             Grid.Row="5"
@@ -91,7 +91,7 @@
             VerticalAlignment="Top"
             BorderBrush="Black"
             BorderThickness="1"
-            Content="" />
+            Content="{Binding CurrentVehicle.Model, UpdateSourceTrigger=PropertyChanged}" />
         <Label
             x:Name="UseResultLabel"
             Grid.Row="6"

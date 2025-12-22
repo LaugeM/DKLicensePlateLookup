@@ -46,5 +46,16 @@ namespace DKLicensePlateLookup.Services.Parsing
             // Replace any run of whitespace with a single space, then trim.
             return Regex.Replace(s, @"\s+", " ").Trim();
         }
+
+        public string[] SplitMakeAndModel(string s)
+        {
+            string[] MakeAndModel = new string[2];
+            string[] SplitString = s.Split(" ");
+
+            MakeAndModel[0] = SplitString[0];
+            MakeAndModel[1] = String.Join(" ", SplitString.Skip(1));
+            return MakeAndModel;
+        }
+
     }
 }
