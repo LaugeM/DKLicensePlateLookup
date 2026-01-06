@@ -30,6 +30,7 @@ namespace DKLicensePlateLookup.ViewModels
         }
 
         public ICommand LookupRegistrationCommand { get; } = new LookupRegistrationCommand();
+        public ICommand LookupInsuranceCommand { get; } = new LookupInsuranceCommand();
 
         private VehicleViewModel _currentVehicle;
         public VehicleViewModel CurrentVehicle

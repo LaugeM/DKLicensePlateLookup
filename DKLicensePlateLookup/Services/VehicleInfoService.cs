@@ -34,10 +34,13 @@ namespace DKLicensePlateLookup.Services
             string FirstReg = _htmlDmrParser.GetField(html, "1. registreringsdato");
 
             VehicleInfo newVehicle = new(RegNumber, VIN, Make, Model, TypeUse, FirstReg);
+            
             return newVehicle;
-
-
-            // Call HttpRequestService, parse result, map to VehicleInfo, etc.
         }
-    }
+
+        //public async Task<string> LookupVehicleInsuranceAsync()
+        //{
+        
+        //}
+        }
 }

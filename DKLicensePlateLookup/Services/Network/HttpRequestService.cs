@@ -83,9 +83,6 @@ namespace DKLicensePlateLookup.Services.Network
                 var nextHtml = await nextResp.Content.ReadAsStringAsync();
                 Console.WriteLine("Next state (e1s2):");
                 return nextHtml;
-                
-                //dataHandler.save(nextHtml, "Info.txt");
-                //Console.WriteLine(nextHtml.Length > 1200 ? nextHtml.Substring(0, 1200) : nextHtml);
             }
             else
             {
@@ -93,7 +90,10 @@ namespace DKLicensePlateLookup.Services.Network
             }
         }
 
+        //public async Task<string> GetInsuranceInfo()
+        //{
 
+        //}
 
         private static string ExtractDmrFormTokenOrThrow_RegexPlusXElement(string html)
         {

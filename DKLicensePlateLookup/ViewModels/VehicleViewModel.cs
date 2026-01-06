@@ -106,5 +106,7 @@ namespace DKLicensePlateLookup.ViewModels
             FirstReg = _vehicleInfo.FirstReg;
             Insurance = _vehicleInfo.Insurance;
         }
+
+        public bool CheckVinExists() => !string.IsNullOrEmpty(VIN);
     }
 }
