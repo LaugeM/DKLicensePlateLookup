@@ -33,7 +33,6 @@ namespace DKLicensePlateLookup.Services.Network
             //Setting up first request
             string startUrl = "https://motorregister.skat.dk/dmr-kerne/koeretoejdetaljer/visKoeretoej?execution=e1s1";
             var startResponse = await _client.GetAsync(startUrl);
-            //Console.WriteLine(startResponse.IsSuccessStatusCode);
 
             if (!startResponse.IsSuccessStatusCode)
             {
@@ -42,9 +41,6 @@ namespace DKLicensePlateLookup.Services.Network
             }
             var startHtml = await startResponse.Content.ReadAsStringAsync();
 
-            //Temp saving page to file
-            //LocalDataStore dataHandler = new();
-            //dataHandler.save(startHtml, "Test.txt");
 
             //Getting DmrFormToken
             var token = ExtractDmrFormTokenOrThrow_RegexPlusXElement(startHtml);
@@ -74,7 +70,6 @@ namespace DKLicensePlateLookup.Services.Network
 
             var postHtml = await postResp.Content.ReadAsStringAsync();
 
-
             var nextUrl = "https://motorregister.skat.dk/dmr-kerne/koeretoejdetaljer/visKoeretoej?execution=e1s2";
             var nextResp = await _client.GetAsync(nextUrl);
             if (nextResp.IsSuccessStatusCode)
@@ -82,6 +77,11 @@ namespace DKLicensePlateLookup.Services.Network
                 Console.WriteLine("Sucessfully requested vehicle information");
                 var nextHtml = await nextResp.Content.ReadAsStringAsync();
                 Console.WriteLine("Next state (e1s2):");
+
+                //Temp saving page to file for debugging
+                //LocalDataStore dataHandler = new();
+                //dataHandler.save(nextHtml, "Info.txt");
+
                 return nextHtml;
             }
             else
@@ -90,10 +90,25 @@ namespace DKLicensePlateLookup.Services.Network
             }
         }
 
-        //public async Task<string> GetInsuranceInfo()
-        //{
+        public async Task<string> GetInsuranceInfo()
+        {
+            var GETUrl = "https://motorregister.skat.dk/dmr-kerne/koeretoejdetaljer/visKoeretoej?execution=e1s2&_eventId=customPage&_pageIndex=3";
+            //var tempStep1 = "/dmr-kerne/koeretoejdetaljer/visKoeretoej?execution=e1s2&_eventId=customPage&_pageIndex=3";
 
-        //}
+            var response = await _client.GetAsync(GETUrl);
+
+            var html = await response.Content.ReadAsStringAsync();
+
+            //Temp saving page to file
+            //LocalDataStore dataHandler = new();
+            //dataHandler.save(html, "Insurance.txt");
+
+            return html;
+
+            //var POSTUrl = "https://prod-rum-proxy.motorregister.skat.dk/apm-ufst_dmr_live_prod/intake/v2/rum/events";
+            //var tempStep2 = "/dmr-kerne/koeretoejdetaljer/visKoeretoej?execution=e1s3"; 
+
+        }
 
         private static string ExtractDmrFormTokenOrThrow_RegexPlusXElement(string html)
         {

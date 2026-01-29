@@ -51,6 +51,15 @@ namespace DKLicensePlateLookup.ViewModels
         {
             VehicleInfo newVehicle = await vehicleInfoService.LookupVehicleAsync(InputRegNumber);
             CurrentVehicle = new VehicleViewModel(newVehicle);
+
+            if (CurrentVehicle.CheckVinExists())
+                await LookupInsuranceCompany();
+        }
+
+        public async Task LookupInsuranceCompany()
+        {
+            var insuranceCompany = await vehicleInfoService.LookupVehicleInsuranceAsync();
+            CurrentVehicle.Insurance = insuranceCompany;
         }
 
     }
