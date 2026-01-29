@@ -79,8 +79,8 @@ namespace DKLicensePlateLookup.Services.Network
                 Console.WriteLine("Next state (e1s2):");
 
                 //Temp saving page to file for debugging
-                LocalDataStore dataHandler = new();
-                dataHandler.save(nextHtml, "Info.txt");
+                //LocalDataStore dataHandler = new();
+                //dataHandler.save(nextHtml, "Info.txt");
 
                 return nextHtml;
             }
@@ -100,8 +100,8 @@ namespace DKLicensePlateLookup.Services.Network
             var html = await response.Content.ReadAsStringAsync();
 
             //Temp saving page to file
-            LocalDataStore dataHandler = new();
-            dataHandler.save(html, "Insurance.txt");
+            //LocalDataStore dataHandler = new();
+            //dataHandler.save(html, "Insurance.txt");
 
             return html;
 
