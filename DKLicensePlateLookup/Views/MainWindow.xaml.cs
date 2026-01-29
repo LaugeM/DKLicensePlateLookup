@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using DKLicensePlateLookup.ViewModels;
 
 namespace DKLicensePlateLookup.Views
 {
@@ -17,11 +18,11 @@ namespace DKLicensePlateLookup.Views
     /// </summary>
     public partial class MainWindow : Window
     {
-        VehicleViewModel vvm = new VehicleViewModel();
+        //MainViewModel mvm = new MainViewModel();
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = vvm;
+            DataContext = new DKLicensePlateLookup.ViewModels.MainViewModel();
         }
     }
 }

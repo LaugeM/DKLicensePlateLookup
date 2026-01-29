@@ -9,41 +9,42 @@ using DKLicensePlateLookup.Services.Data;
 
 namespace DKLicensePlateLookup.Services.Network
 {
-    class HttpRequestService
+    public class HttpRequestService
     {
-        public async Task GetInfo()
+        private readonly CookieContainer _cookies;
+        private readonly HttpClientHandler _handler;
+        private readonly HttpClient _client;
+
+        public HttpRequestService()
         {
-            //Setting up handler
-            CookieContainer Cookies = new CookieContainer();
-            HttpClientHandler handler = new HttpClientHandler
+            _cookies = new CookieContainer();
+            _handler = new HttpClientHandler
             {
-                CookieContainer = Cookies,
+                CookieContainer = _cookies,
                 UseCookies = true,
                 AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
                 AllowAutoRedirect = true
             };
+            _client = new HttpClient(_handler);
+        }
 
-            HttpClient client = new HttpClient(handler);
-
+        public async Task<string> GetInfo(string regNumber)
+        {
             //Setting up first request
             string startUrl = "https://motorregister.skat.dk/dmr-kerne/koeretoejdetaljer/visKoeretoej?execution=e1s1";
-            var startResponse = await client.GetAsync(startUrl);
-            Console.WriteLine(startResponse.IsSuccessStatusCode);
+            var startResponse = await _client.GetAsync(startUrl);
 
             if (!startResponse.IsSuccessStatusCode)
             {
                 Console.WriteLine($"startResponse.IsSuccessStatusCode: {startResponse.IsSuccessStatusCode}");
-                return;
+                return "";
             }
             var startHtml = await startResponse.Content.ReadAsStringAsync();
 
-            //Temp saving page to file
-            LocalDataStore dataHandler = new();
-            dataHandler.save(startHtml, "Test.txt");
 
             //Getting DmrFormToken
             var token = ExtractDmrFormTokenOrThrow_RegexPlusXElement(startHtml);
-            Console.WriteLine($"dmrFormToken = {token}");
+            //Console.WriteLine($"dmrFormToken = {token}");
 
             //Setting up second request
             var postUrl = "https://motorregister.skat.dk/dmr-kerne/koeretoejdetaljer/visKoeretoej?execution=e1s1&_eventId=search";
@@ -55,34 +56,59 @@ namespace DKLicensePlateLookup.Services.Network
                 {
                     { "dmrFormToken", token },
                     { "soegekriterie", "REGISTRERINGSNUMMER" },
-                    { "soegeord", "ce36155" },
+                    { "soegeord", regNumber },
                     { submitFieldName, "Søg" }
                 };
 
             using var content = new FormUrlEncodedContent(formData);
 
-            client.DefaultRequestHeaders.Referrer = new Uri(startUrl);
+            _client.DefaultRequestHeaders.Referrer = new Uri(startUrl);
 
 
-            var postResp = await client.PostAsync(postUrl, content);
+            var postResp = await _client.PostAsync(postUrl, content);
             Console.WriteLine($"POST status: {(int)postResp.StatusCode} {postResp.ReasonPhrase}");
 
             var postHtml = await postResp.Content.ReadAsStringAsync();
 
-
             var nextUrl = "https://motorregister.skat.dk/dmr-kerne/koeretoejdetaljer/visKoeretoej?execution=e1s2";
-            var nextResp = await client.GetAsync(nextUrl);
+            var nextResp = await _client.GetAsync(nextUrl);
             if (nextResp.IsSuccessStatusCode)
             {
                 Console.WriteLine("Sucessfully requested vehicle information");
                 var nextHtml = await nextResp.Content.ReadAsStringAsync();
                 Console.WriteLine("Next state (e1s2):");
-                dataHandler.save(nextHtml, "Info.txt");
-                //Console.WriteLine(nextHtml.Length > 1200 ? nextHtml.Substring(0, 1200) : nextHtml);
+
+                //Temp saving page to file for debugging
+                //LocalDataStore dataHandler = new();
+                //dataHandler.save(nextHtml, "Info.txt");
+
+                return nextHtml;
+            }
+            else
+            {
+                return "";
             }
         }
 
+        public async Task<string> GetInsuranceInfo()
+        {
+            var GETUrl = "https://motorregister.skat.dk/dmr-kerne/koeretoejdetaljer/visKoeretoej?execution=e1s2&_eventId=customPage&_pageIndex=3";
+            //var tempStep1 = "/dmr-kerne/koeretoejdetaljer/visKoeretoej?execution=e1s2&_eventId=customPage&_pageIndex=3";
 
+            var response = await _client.GetAsync(GETUrl);
+
+            var html = await response.Content.ReadAsStringAsync();
+
+            //Temp saving page to file
+            //LocalDataStore dataHandler = new();
+            //dataHandler.save(html, "Insurance.txt");
+
+            return html;
+
+            //var POSTUrl = "https://prod-rum-proxy.motorregister.skat.dk/apm-ufst_dmr_live_prod/intake/v2/rum/events";
+            //var tempStep2 = "/dmr-kerne/koeretoejdetaljer/visKoeretoej?execution=e1s3"; 
+
+        }
 
         private static string ExtractDmrFormTokenOrThrow_RegexPlusXElement(string html)
         {
