@@ -33,7 +33,7 @@ namespace DKLicensePlateLookup.Commands
         {
             if (parameter is MainViewModel mvm)
             {
-                mvm.LookupVehicle();
+                mvm.LookupInsuranceCompany();
             }
             else
             {
